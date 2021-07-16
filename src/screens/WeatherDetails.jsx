@@ -1,10 +1,14 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View , Button } from 'react-native'
+import { ROUTES } from '../utils/constants';
 
-const WeatherDetails = () => {
+
+
+const WeatherDetails = ({navigation}) => {
     return (
         <View>
-            <Text>Weather Detail</Text>
+            <Text>Weather Detail 2</Text>
+            <Button onPress={() => navigation.navigate(ROUTES.SIGN_UP)} title='Sign up'/>
         </View>
     )
 }
