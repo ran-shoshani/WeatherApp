@@ -5,9 +5,9 @@ import { ROUTES } from '../utils/constants';
 
 const Home = ({navigation}) => {
     return (
-        <View>
+        <View style={styles.centerAlign}>
             <Text>Home 4</Text>
-            <Button onPress={() => navigation.navigate(ROUTES.HOME)} title='Home'/>
+            <Button onPress={() => navigation.navigate(ROUTES.PROFILE)} title='Home'/>
         </View>
     )
 }
@@ -16,4 +16,12 @@ export default Home
 
 
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+
+    centerAlign:{
+        flex: 1,
+        alignItems:'center',
+        justifyContent:'center'
+    }
+    
+    })

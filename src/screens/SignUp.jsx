@@ -5,8 +5,8 @@ import { ROUTES } from "../utils/constants";
 const SignUp = ({ navigation }) => {
   return (
     <View>
-      <Text>SignUp 3</Text>
-      <Button onPress={() => navigation.navigate(ROUTES.HOME)} title="Home" />
+      <Text>SignUp</Text>
+      <Button onPress={() => navigation.navigate(ROUTES.SIGN_IN)} title="Sign In" />
     </View>
   );
 };

@@ -1,32 +1,32 @@
 import "react-native-gesture-handler";
-import React from "react";
+import React, { useState, useEffect , useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StyleSheet, Text, View } from "react-native";
-// import Home from './src/screens';
-import Home from "./src/screens/Home";
-import Profile from "./src/screens/Profile";
-import SignIn from "./src/screens/SignIn";
-import SignUp from "./src/screens/SignUp";
-import WeatherDetails from "./src/screens/WeatherDetails";
-import { ROUTES } from "./src/utils/constants";
 
-const Stack = createStackNavigator();
+import { UserProvider } from "./src/utils/userContext";
+import AppStackScreens from "./src/stacks/AppStackScreens";
+
+
+// password Jsh-icna-jpb
+// rnfes =  react native function export component
+
+
 
 export default function App() {
+
+
+  // if (state.isLoading) {
+  //   // We haven't finished checking for the token yet
+  //   return <SplashScreen />;
+  // }
+  // state.isLoading is FALSE
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Sign In">
-        <Stack.Screen name={ROUTES.HOME} component={Home} />
-        <Stack.Screen name={ROUTES.SIGN_UP} component={SignUp} />
-        <Stack.Screen name={ROUTES.SIGN_IN} component={SignIn} />
-        <Stack.Screen name={ROUTES.PROFILE} component={Profile} />
-        <Stack.Screen
-          name={ROUTES.WEATHER_DETAILS}
-          component={WeatherDetails}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <UserProvider>
+      <NavigationContainer>
+        <AppStackScreens/>
+      </NavigationContainer>
+    </UserProvider>
   );
 }
 
@@ -38,3 +38,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+{
+  /* <Stack.Screen name={ROUTES.HOME} component={Home} />
+<Stack.Screen name={ROUTES.SIGN_UP} component={SignUp} />
+<Stack.Screen name={ROUTES.SIGN_IN} component={SignIn} />
+<Stack.Screen name={ROUTES.PROFILE} component={Profile} />
+<Stack.Screen
+  name={ROUTES.WEATHER_DETAILS}
+  component={WeatherDetails}
+/> */
+}
