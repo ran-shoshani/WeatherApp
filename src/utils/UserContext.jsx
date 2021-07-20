@@ -6,7 +6,7 @@ const UserContext = createContext([{}, () => {}])
 const UserProvider = (props) => {
 
     const [state,setState] = useState({
-        //username: '';
+        username: '',
         email:'',
         uid:'',
         isLoggedIn: null,

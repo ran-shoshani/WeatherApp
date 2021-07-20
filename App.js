@@ -1,33 +1,30 @@
 import "react-native-gesture-handler";
-import React, { useState, useEffect , useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StyleSheet, Text, View } from "react-native";
 
-import { UserProvider } from "./src/utils/userContext";
+import { UserProvider } from "./src/utils/UserContext";
 import AppStackScreens from "./src/stacks/AppStackScreens";
+import { FirebaseProvider } from "./src/utils/FirebaseContext";
 
 
-// password Jsh-icna-jpb
 // rnfes =  react native function export component
 
-
-
 export default function App() {
-
-
   // if (state.isLoading) {
   //   // We haven't finished checking for the token yet
   //   return <SplashScreen />;
   // }
   // state.isLoading is FALSE
   return (
-  
-    <UserProvider>
-      <NavigationContainer>
-        <AppStackScreens/>
-      </NavigationContainer>
-    </UserProvider>
+    <FirebaseProvider>
+      <UserProvider>
+        <NavigationContainer>
+          <AppStackScreens />
+        </NavigationContainer>
+      </UserProvider>
+    </FirebaseProvider>
   );
 }
 

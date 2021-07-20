@@ -8,7 +8,7 @@ import {
   TextInput,
 } from "react-native";
 import { ROUTES } from "../utils/constants";
-import { UserContext } from "../utils/userContext";
+import { UserContext } from "../utils/UserContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { authStyles } from "../styles/authStyles";
 //import firebase from '../utils/firebase';

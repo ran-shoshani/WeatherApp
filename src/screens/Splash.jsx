@@ -1,20 +1,37 @@
 
 import React, { useEffect , useContext } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { UserContext } from '../utils/userContext'
-
+import { UserContext } from '../utils/UserContext'
+import { FirebaseContext } from '../utils/FirebaseContext'
 
 
 
 const Splash = () => {
 
 const [_,setUser] = useContext(UserContext);
+const firebase = useContext(FirebaseContext);
 
     useEffect ( () => {
 
         setTimeout(async() => {
-            setUser((state) => ({...state,isLoggedIn:false}));
-        },1000);
+
+            const user = firebase.getCurrentUser();
+
+            if(user){
+                const userInfo = await firebase.getUserInfo(user.uid);
+                setUser({
+                    isLoggedIn: true,
+                    email:userInfo.email,
+                    uid: user.uid,
+                    username:userInfo.username,
+                })
+            }else{
+
+                setUser((state) => ({...state,isLoggedIn:false}));
+            }
+        },500);
+
+
     },[])
 
 

@@ -2,7 +2,7 @@ import React, { useContext , useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import AuthStackScreens from './AuthStackScreens';
 import MainStackScreens from './MainStackScreens';
-import { UserContext } from '../utils/userContext';
+import { UserContext } from '../utils/UserContext';
 import { createStackNavigator } from "@react-navigation/stack";
 import Splash from '../screens/Splash';
 
