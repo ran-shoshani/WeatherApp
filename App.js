@@ -22,6 +22,7 @@ export default function App() {
   // }
   // state.isLoading is FALSE
   return (
+  
     <UserProvider>
       <NavigationContainer>
         <AppStackScreens/>

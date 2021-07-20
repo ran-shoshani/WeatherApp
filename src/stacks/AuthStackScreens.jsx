@@ -9,7 +9,7 @@ export default AuthStackScreens = () => {
     const AuthStack = createStackNavigator();
 
     return(
-        <AuthStack.Navigator headMode="none">
+        <AuthStack.Navigator headerMode="none">
             <AuthStack.Screen name={ROUTES.SIGN_IN} component={SignIn}/>
             <AuthStack.Screen name={ROUTES.SIGN_UP} component={SignUp}/>
         </AuthStack.Navigator>
