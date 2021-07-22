@@ -1,5 +1,5 @@
 import React, { useContext , useState ,useEffect } from 'react'
-import { StyleSheet , Text , View , Button , TextInput , TouchableOpacity } from "react-native";
+import { StyleSheet , Text , View , Button , TextInput , TouchableOpacity , ActivityIndicator } from "react-native";
 import { ROUTES } from "../utils/constants";
 import { authStyles } from "../styles/authStyles";
 import { UserContext } from "../utils/UserContext";
@@ -10,8 +10,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 const SignUp = ({ navigation }) => {
 
-
   
+  const [loading,setLoading] = useState(false);
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -24,19 +24,31 @@ const SignUp = ({ navigation }) => {
 
 
 
+  
+
+
   const signUp = async() => {
+
+    setLoading(true);
+
+    useEffect(() => {
+      console.log("Sign Up Screen");
+    });
+
     const user = {
       username,
       email,
       password,
     }
     try {
-      // email pass check
+      // email password check
       const createdUser = await firebase.createUser(user);
       setUser({...createdUser,isLoggedIn: true});   
-      console('-----signUp successful');   
+      console.log('-----signUp successful');   
     } catch (error) {
       console.log('error @signUp', error.message);
+    }finally{
+      setLoading(false);
     }
   }
 
@@ -122,7 +134,10 @@ const SignUp = ({ navigation }) => {
 
     <View style={authStyles.signInView}>
       <TouchableOpacity onPress={signUp} style={authStyles.signInButton}>
+        {loading ? 
+        <ActivityIndicator size ={'large'} color="#0000ff"/> :
         <Text style={authStyles.signInText}>{"Sign Up"}</Text>
+        }
       </TouchableOpacity>
     </View>
 

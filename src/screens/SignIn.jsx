@@ -6,31 +6,57 @@ import {
   Button,
   TouchableOpacity,
   TextInput,
+  Alert
 } from "react-native";
 import { ROUTES } from "../utils/constants";
 import { UserContext } from "../utils/UserContext";
+import { FirebaseContext } from "../utils/FirebaseContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { authStyles } from "../styles/authStyles";
-//import firebase from '../utils/firebase';
+
 
 const SignIn = ({ navigation }) => {
+
+  const [loading,setLoading] = useState(false);
+
   const [user, setUser] = useContext(UserContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordHidden, setPasswordHidden] = useState(true);
 
+  const firebase = useContext(FirebaseContext);
+
+
   useEffect(() => {
-    console.log("signin component user uid", user.uid);
+    console.log("signin component user uid: ", user.uid);
+    console.log("Sign In Screen");
   }, [user.uid]);
 
-  const handleSignin = () => {
+  
+
+  const handleSignin = async () => {
     try {
-      firebase.auth().signinWithEmailAndPassword(email, password).then();
-    } catch (error) {
-      console.log("error @signin, ", errormessage);
+      await firebase.signIn(email, password);
+
+      const uid = firebase.getCurrentUser().uid;
+      const userInfo = await firebase.getUserInfo(uid);
+
+      setUser({
+        username: userInfo.username,
+        email: userInfo.email,
+        uid,
+        isLoggedIn: true
+      })
     }
-  };
+    catch (error) {
+      console.log("error @signin, ",error.message);
+    }finally{
+      setLoading(false);
+    }
+    
+  }
+
 
   return (
     <View style={authStyles.centerAlign}>
@@ -71,8 +97,11 @@ const SignIn = ({ navigation }) => {
       </View>
 
       <View style={authStyles.signInView}>
-        <TouchableOpacity style={authStyles.signInButton}>
+        <TouchableOpacity onPress={handleSignin} style={authStyles.signInButton} >
+          {loading ? 
+          <ActivityIndicator size ={'large'} color="#0000ff"/> :
           <Text style={authStyles.signInText}>{"Sign In"}</Text>
+          }
         </TouchableOpacity>
       </View>
 

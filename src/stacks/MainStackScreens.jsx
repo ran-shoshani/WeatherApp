@@ -11,7 +11,7 @@ export default MainStackScreens = () => {
     const MainStack = createStackNavigator();
 
     return (
-        <MainStack.Navigator headerMode = "none">
+        <MainStack.Navigator>
             <MainStack.Screen name={ROUTES.HOME} component={Home}/>
             <MainStack.Screen name={ROUTES.PROFILE} component={Profile}/>
             <MainStack.Screen name={ROUTES.WEATHER_DETAILS} component={WeatherDetails}/>
@@ -19,3 +19,7 @@ export default MainStackScreens = () => {
     )
 
 }
+
+
+
+//<MainStack.Navigator headerMode = "none">

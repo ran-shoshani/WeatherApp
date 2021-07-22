@@ -57,6 +57,7 @@ export const authStyles = StyleSheet.create({
         borderRadius: 10,
     },
 
+    //button start
     signInButton:{
         width:'100%',
         padding:10
@@ -72,11 +73,21 @@ export const authStyles = StyleSheet.create({
         marginTop: 10
     },
 
+
+    // red link start
     signUpLink:{
+        
        color:'red',
        textDecorationLine:'underline',
-       paddingHorizontal:5
+       paddingHorizontal:5,
+       fontSize:22,
     },
+
+    signUpText:{
+        fontSize:22,
+        alignSelf: 'center'
+    }
+    // red link end
 
 
 })

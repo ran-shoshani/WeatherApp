@@ -49,15 +49,40 @@ const Firebase ={
         try {
             const user = await db.collection('users').doc(uid).get()
 
-            if(users.exist){
+            if(user.exists){
                 return user.data()
             }
 
         } catch (error) {
             console.log('error @getUserInfo: ', error.message);
         }
+    },
 
+    signOut: async () => {
+            try{
+                await firebase.auth().signOut();
+                return true;
+            }
+            catch(error){
+                console.log('error @signOut: ', error.message);
+            }
+
+            return false;
+        },
+
+    signIn: async (email, password) => {
+        return firebase.auth().signInWithEmailAndPassword(email, password);
+        // try{
+        //     return firebase.auth().signInWithEmailAndPassword(email, password);
+        //     return true;
+        // }
+        // catch(error){
+        //     console.log('error @signIn: ', error.message);
+        // }
+        // return false;
     }
+
+    
 }
 
 
