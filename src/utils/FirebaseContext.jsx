@@ -72,17 +72,56 @@ const Firebase ={
 
     signIn: async (email, password) => {
         return firebase.auth().signInWithEmailAndPassword(email, password);
-        // try{
-        //     return firebase.auth().signInWithEmailAndPassword(email, password);
-        //     return true;
-        // }
-        // catch(error){
-        //     console.log('error @signIn: ', error.message);
-        // }
-        // return false;
+    },
+
+    reauthenticateUser: async (currentPassword) => {
+        let credentials = firebase.auth.EmailAuthProvider.credential(
+        firebase.auth().currentUser.email,
+        currentPassword
+    );
+    try{
+        return firebase.auth().currentUser.reauthenticateWithCredential(credential);
+    }catch(error)
+    {
+        console.log("error @reauthenticateUser", error.message);
+        return false;
+    }
+    },
+
+  
+    // update name and password
+    updatePassword: async(currentPassword,newPassword) => {
+        // get the uid of the current user
+       const didReauthenticate = await Firebase.reauthenticateUser(currentPassword);
+       if(didReauthenticate){
+           try{
+               firebase.auth().currentUser.updatePassword(newPassword).then(
+                   console.log("successfully updated userPassword")
+               )
+               return true;
+           }catch(err){
+               console.log("error @updatePassword", error.message);
+               return false
+           }
+       }
+        
+    },
+    updateUsername: async(newUsername) => {
+
+        try{
+        const uid = firebase.currentUser().uid;
+        await db.collection('users').doc(uid).update({username:newUsername})
+        .then(console.log("successfully updated username"));
+        return true;
+
+    }catch(err)
+     {
+        console.log("error updating username", err.message);
+        return false;
+     }
+     
     }
 
-    
 }
 
 
