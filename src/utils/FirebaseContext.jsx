@@ -80,7 +80,7 @@ const Firebase ={
         currentPassword
     );
     try{
-        return firebase.auth().currentUser.reauthenticateWithCredential(credential);
+        return firebase.auth().currentUser.reauthenticateWithCredential(credentials);
     }catch(error)
     {
         console.log("error @reauthenticateUser", error.message);
@@ -109,7 +109,7 @@ const Firebase ={
     updateUsername: async(newUsername) => {
 
         try{
-        const uid = firebase.currentUser().uid;
+        const uid = Firebase.getCurrentUser().uid;
         await db.collection('users').doc(uid).update({username:newUsername})
         .then(console.log("successfully updated username"));
         return true;

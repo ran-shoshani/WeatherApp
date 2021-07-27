@@ -1,8 +1,11 @@
 import React, { useEffect , useLayoutEffect } from "react";
 import { StyleSheet, Text, View, Button ,TouchableOpacity } from "react-native";
+// name import
 import { ROUTES } from "../utils/constants";
 import { MaterialIcons } from '@expo/vector-icons';
 
+// default import
+import Location from "../components/Home/Location";
 
 
 const Home = ({ navigation }) => {
@@ -31,7 +34,9 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={styles.centerAlign}>
+      <Location/>
       <Text>Home 4</Text>
+      
       <Button
         onPress={() => navigation.navigate(ROUTES.PROFILE)}
         title="Profile Page"
@@ -41,6 +46,13 @@ const Home = ({ navigation }) => {
 };
 
 export default Home;
+
+
+
+
+
+
+
 
 const styles = StyleSheet.create({
   centerAlign: {

@@ -52,7 +52,7 @@ const Profile = ({ navigation }) => {
     // setUpdatePasswordLoading(true);
 
     try{
-      const didUpdatePassword = await firebase.updatePassword(newPassword);
+      const didUpdatePassword = await firebase.updatePassword(currentPassword,newPassword);
       if(didUpdatePassword){
         setUser((state) => ({...state,password:newPassword}));
         console.log("successfully updated password!");
@@ -122,7 +122,7 @@ const Profile = ({ navigation }) => {
 
         {/* save button */}
         <TouchableOpacity onPress={handleUpdateUsername}>
-          <Text style={styles.input}>{"Save"}</Text>
+          <Text style={styles.input}>{"Save Name"}</Text>
         </TouchableOpacity>
       </View>
 
@@ -134,12 +134,12 @@ const Profile = ({ navigation }) => {
       <View>
         <TextInput 
         
-        placeholder={"password"} 
+        placeholder={"new password"} 
         value={newPassword}
-        onChangeText={(value) => setNewUsername(value)}
+        onChangeText={(value) => setNewPassword(value)}
         />
       </View>
-      {/* SAVE BUTTON */}
+     
 
 
 
@@ -150,14 +150,14 @@ const Profile = ({ navigation }) => {
       <View>
         <TextInput 
         
-        placeholder={"password"} 
+        placeholder={"current password"} 
         value={currentPassword}
         onChangeText={(value) => setCurrentPassword(value)}
         />
       </View>
        {/* save button */}
        <TouchableOpacity onPress={handleUpdatePassword}>
-          <Text style={styles.input}>{"Save"}</Text>
+          <Text style={styles.input}>{"Save Password"}</Text>
         </TouchableOpacity>
       
     </View>

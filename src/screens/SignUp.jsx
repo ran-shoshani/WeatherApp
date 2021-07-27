@@ -24,16 +24,16 @@ const SignUp = ({ navigation }) => {
 
 
 
-  
+  useEffect(() => {
+    console.log("Sign Up Screen");
+  },[]);
 
 
   const signUp = async() => {
 
     setLoading(true);
 
-    useEffect(() => {
-      console.log("Sign Up Screen");
-    });
+    
 
     const user = {
       username,
