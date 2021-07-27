@@ -45,7 +45,7 @@ const SignIn = ({ navigation }) => {
       setUser({
         username: userInfo.username,
         email: userInfo.email,
-        uid,
+        uid: uid,
         isLoggedIn: true
       })
     }

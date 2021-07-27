@@ -1,12 +1,14 @@
 import React, { useContext , useState ,useEffect } from 'react';
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet , TextInput , TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const Location = () => {
 
 
 
-const [searchInput, setSearchInput] = useState=('');
+const [searchInput, setSearchInput] = useState('');
+
+
 
 const handleSearch = (searchInput) => {
 
@@ -41,13 +43,19 @@ const handleSearch = (searchInput) => {
 
 export default Location;
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   locationContainer: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
   },
 
+  search:{
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    fontSize:20,
+  },
   currentLocation: {},
 });
 {
