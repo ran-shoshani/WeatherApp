@@ -6,7 +6,8 @@ import {
   Button,
   TouchableOpacity,
   TextInput,
-  Alert
+  Alert , 
+  ActivityIndicator
 } from "react-native";
 import { ROUTES } from "../utils/constants";
 import { UserContext } from "../utils/UserContext";
@@ -17,25 +18,32 @@ import { authStyles } from "../styles/authStyles";
 
 const SignIn = ({ navigation }) => {
 
+
+
+// states for this component
   const [loading,setLoading] = useState(false);
-
-  const [user, setUser] = useContext(UserContext);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordHidden, setPasswordHidden] = useState(true);
 
+
+// context for this component
   const firebase = useContext(FirebaseContext);
+  const [user, setUser] = useContext(UserContext);
 
 
+// hook call for this component
   useEffect(() => {
-    console.log("signin component user uid: ", user.uid);
+
+    // console.log("signin component user uid: ", user.uid);
     console.log("Sign In Screen");
-  }, [user.uid]);
+    
+  },[]);
 
   
-
+// functions for this component
   const handleSignin = async () => {
+      setLoading(true);
     try {
       await firebase.signIn(email, password);
 
@@ -54,10 +62,9 @@ const SignIn = ({ navigation }) => {
     }finally{
       setLoading(false);
     }
-    
   }
 
-
+// return function with UI
   return (
     <View style={authStyles.centerAlign}>
       <Text>Sign In</Text>

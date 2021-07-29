@@ -1,42 +1,45 @@
-import React, { useContext , useState ,useEffect } from 'react';
-import { View, Text, StyleSheet , TextInput , TouchableOpacity } from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const Location = () => {
+  const [searchInput, setSearchInput] = useState("");
+  const[searchResult, setSearchResult] = useState("");
 
-
-
-const [searchInput, setSearchInput] = useState('');
-
-
-
-const handleSearch = (searchInput) => {
-
-    console.log("handleSearch",searchInput);
-}
-
+  const handleSearch = (searchInput) => {
+    console.log("handleSearch", searchInput);
+  };
 
 
   return (
     <View style={styles.locationContainer}>
-      <View style={styles.search}>
-        <MaterialIcons name="search" size={24} color="black" />
+      <View style={styles.locationRow}>
+        <View style={styles.search}>
+          <MaterialIcons name="search" size={24} color="black" />
 
-        <TextInput
-          style={styles.searchInput}
-          placeholder={"Search..."}
-          value={searchInput}
-          onChangeText={(value) => setSearchInput(value)}
-
-          onSubmitEditing={() => handleSearch(searchInput)}
-
-        />
-     </View>
+          <TextInput
+            style={styles.searchInput}
+            placeholder={"Search..."}
+            value={searchInput}
+            onChangeText={(value) => setSearchInput(value)}
+            onSubmitEditing={() => handleSearch(searchInput)}
+          />
+        </View>
         {/* location icon */}
         <TouchableOpacity style={styles.currentLocation}>
           <MaterialIcons name="my-location" size={24} color="black" />
         </TouchableOpacity>
-     
+        <View
+          style={styles.searchResult}>
+          <Text>{searchResult}</Text>
+        </View>
+      </View>
     </View>
   );
 };
@@ -44,19 +47,24 @@ const handleSearch = (searchInput) => {
 export default Location;
 
 const styles = StyleSheet.create({
-  locationContainer: {
+  locationRow: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+  },
+  locationContainer: {
+    // display: "flex",
+    // flexDirection: "row",
+    // justifyContent: "space-between",
   },
 
-  search:{
+  search: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    fontSize:20,
+    fontSize: 20,
   },
-  currentLocation: {},
+  // currentLocation: {},
+  searchResult: {},
 });
 {
   /* <MaterialIcons name="search" size={24} color="black" />

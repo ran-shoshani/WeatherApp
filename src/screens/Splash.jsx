@@ -1,55 +1,53 @@
-
-import React, { useEffect , useContext } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { UserContext } from '../utils/UserContext'
-import { FirebaseContext } from '../utils/FirebaseContext'
-
-
+import React, { useEffect, useContext } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { UserContext } from "../utils/UserContext";
+import { FirebaseContext } from "../utils/FirebaseContext";
 
 const Splash = () => {
+  const [_, setUser] = useContext(UserContext);
+  const firebase = useContext(FirebaseContext);
+    
+  useEffect(() => {
 
-const [_,setUser] = useContext(UserContext);
-const firebase = useContext(FirebaseContext);
+    console.log("Splash screen useEffect");
 
-    useEffect ( () => {
+    setTimeout(async () => {
+      const user = firebase.getCurrentUser();
+      console.log("user result", user);
 
-        setTimeout(async() => {
+      if (user) {
+        console.log("Splash before getUserInfo()", user.uid);
 
-            const user = firebase.getCurrentUser();
+        const userInfo = await firebase.getUserInfo(user.uid);
 
-            if(user){
-                const userInfo = await firebase.getUserInfo(user.uid);
-                setUser({
-                    isLoggedIn: true,
-                    email:userInfo.email,
-                    uid: user.uid,
-                    username:userInfo.username,
-                })
-            }else{
+        console.log("Splash result getUserInfo ", userInfo);
+        setUser({
+          isLoggedIn: true,
+          email: userInfo.email,
+          uid: user.uid,
+          username: userInfo.username,
+        });
+      } else {
+        console.log("---Splash screen useEffect user not found");
+        setUser((state) => ({ ...state, isLoggedIn: false }));
+      }
+      // 1 second
+    }, 1000);
+  }, []);
 
-                setUser((state) => ({...state,isLoggedIn:false}));
-            }
-        },500);
+  return (
+    <View style={styles.centerAlign}>
+      <Text>Splash</Text>
+    </View>
+  );
+};
 
-
-    },[])
-
-
-    return (
-        <View style={styles.centerAlign}>
-            <Text>Splash</Text>
-        </View>
-    )
-}
-
-export default Splash
+export default Splash;
 
 const styles = StyleSheet.create({
-
-centerAlign:{
+  centerAlign: {
     flex: 1,
-    alignItems:'center',
-    justifyContent:'center'
-}
-
-})
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

@@ -71,7 +71,7 @@ const Firebase ={
         },
 
     signIn: async (email, password) => {
-        return firebase.auth().signInWithEmailAndPassword(email, password);
+        return firebase.auth().signInWithEmailAndPassword(email,password);
     },
 
     reauthenticateUser: async (currentPassword) => {

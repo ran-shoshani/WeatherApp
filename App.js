@@ -2,7 +2,7 @@ import "react-native-gesture-handler";
 import React, { useState, useEffect, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View , LogBox} from "react-native";
 
 import { UserProvider } from "./src/utils/UserContext";
 import AppStackScreens from "./src/stacks/AppStackScreens";
@@ -17,6 +17,14 @@ export default function App() {
   //   return <SplashScreen />;
   // }
   // state.isLoading is FALSE
+
+useEffect(() => {
+
+      // ignore the warning from firebase
+      LogBox.ignoreLogs(['Setting a timer']);
+
+},[])
+
   return (
     <FirebaseProvider>
       <UserProvider>
