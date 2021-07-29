@@ -6,8 +6,8 @@ import {
   Button,
   TouchableOpacity,
   TextInput,
-  Alert , 
-  ActivityIndicator
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { ROUTES } from "../utils/constants";
 import { UserContext } from "../utils/UserContext";
@@ -15,35 +15,26 @@ import { FirebaseContext } from "../utils/FirebaseContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { authStyles } from "../styles/authStyles";
 
-
 const SignIn = ({ navigation }) => {
-
-
-
-// states for this component
-  const [loading,setLoading] = useState(false);
+  // states for this component
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordHidden, setPasswordHidden] = useState(true);
 
-
-// context for this component
+  // context for this component
   const firebase = useContext(FirebaseContext);
   const [user, setUser] = useContext(UserContext);
 
-
-// hook call for this component
+  // hook call for this component
   useEffect(() => {
-
     // console.log("signin component user uid: ", user.uid);
     console.log("Sign In Screen");
-    
-  },[]);
+  }, []);
 
-  
-// functions for this component
+  // functions for this component
   const handleSignin = async () => {
-      setLoading(true);
+    setLoading(true);
     try {
       await firebase.signIn(email, password);
 
@@ -54,17 +45,16 @@ const SignIn = ({ navigation }) => {
         username: userInfo.username,
         email: userInfo.email,
         uid: uid,
-        isLoggedIn: true
-      })
-    }
-    catch (error) {
-      console.log("error @signin, ",error.message);
-    }finally{
+        isLoggedIn: true,
+      });
+    } catch (error) {
+      console.log("error @signin, ", error.message);
+    } finally {
       setLoading(false);
     }
-  }
+  };
 
-// return function with UI
+  // return function with UI
   return (
     <View style={authStyles.centerAlign}>
       <Text>Sign In</Text>
@@ -104,11 +94,15 @@ const SignIn = ({ navigation }) => {
       </View>
 
       <View style={authStyles.signInView}>
-        <TouchableOpacity onPress={handleSignin} style={authStyles.signInButton} >
-          {loading ? 
-          <ActivityIndicator size ={'large'} color="#0000ff"/> :
-          <Text style={authStyles.signInText}>{"Sign In"}</Text>
-          }
+        <TouchableOpacity
+          onPress={handleSignin}
+          style={authStyles.signInButton}
+        >
+          {loading ? (
+            <ActivityIndicator size={"large"} color="#0000ff" />
+          ) : (
+            <Text style={authStyles.signInText}>{"Sign In"}</Text>
+          )}
         </TouchableOpacity>
       </View>
 

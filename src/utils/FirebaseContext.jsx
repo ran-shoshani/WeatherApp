@@ -21,7 +21,11 @@ const db = firebase.firestore();
 // define an object with all the firebase functions
 const Firebase ={
     getCurrentUser: ()=> {
-        return firebase.auth().currentUser;
+        const user = firebase.auth().currentUser;
+        console.log(" - Firebase.getCurrentUser()", user);
+        return user;
+        // return firebase.auth().currentUser;
+
     },
 
     createUser: async(user) => {

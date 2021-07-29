@@ -13,7 +13,7 @@ const Splash = () => {
 
     setTimeout(async () => {
       const user = firebase.getCurrentUser();
-      console.log("user result", user);
+      console.log("user result : ", user);
 
       if (user) {
         console.log("Splash before getUserInfo()", user.uid);
@@ -32,7 +32,7 @@ const Splash = () => {
         setUser((state) => ({ ...state, isLoggedIn: false }));
       }
       // 1 second
-    }, 1000);
+    }, 2000);
   }, []);
 
   return (
