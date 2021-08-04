@@ -15,7 +15,7 @@ import { authStyles } from "../styles/authStyles";
 
 const Profile = ({ navigation }) => {
 
-  //
+  //states for this component
   const firebase = useContext(FirebaseContext);
   const [_, setUser] = useContext(UserContext);
 

@@ -7,15 +7,22 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import * as Location from 'expo-location';
 
-const Location = () => {
+const AddLocation = ({handleSearch}) => {
+  // states for this component
   const [searchInput, setSearchInput] = useState("");
-  const[searchResult, setSearchResult] = useState("");
+  const [errorMsg,setErrorMsg] = useState('');
 
-  const handleSearch = (searchInput) => {
-    console.log("handleSearch", searchInput);
-  };
 
+  // context for this component
+
+  // hook call for this component
+
+
+
+  //functions for this component
+ 
 
   return (
     <View style={styles.locationContainer}>
@@ -28,43 +35,48 @@ const Location = () => {
             placeholder={"Search..."}
             value={searchInput}
             onChangeText={(value) => setSearchInput(value)}
-            onSubmitEditing={() => handleSearch(searchInput)}
+            onSubmitEditing={() => {handleSearch(searchInput); setSearchInput('');}}
           />
         </View>
         {/* location icon */}
         <TouchableOpacity style={styles.currentLocation}>
           <MaterialIcons name="my-location" size={24} color="black" />
         </TouchableOpacity>
-        <View
-          style={styles.searchResult}>
-          <Text>{searchResult}</Text>
-        </View>
       </View>
     </View>
   );
 };
 
-export default Location;
+export default AddLocation;
 
 const styles = StyleSheet.create({
+  locationContainer: {
+    //alignItems: center,
+  },
   locationRow: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "space-around",
+    width: "80%",
+    marginTop: 10,
+    borderWidth: 1,
   },
-  locationContainer: {
-    // display: "flex",
-    // flexDirection: "row",
-    // justifyContent: "space-between",
-  },
-
   search: {
-    display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
-    fontSize: 20,
+    flex: 1,
+    padding: 10,
+    marginHorizontal: 5,
+    //borderWidth:6,
   },
-  // currentLocation: {},
-  searchResult: {},
+  searchInput: {
+    fontSize: 20,
+    flex: 1,
+    
+  },
+  currentLocation: {
+    padding: 10,
+    marginHorizontal: 10,
+  },
 });
 {
   /* <MaterialIcons name="search" size={24} color="black" />

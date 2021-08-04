@@ -9,6 +9,10 @@ import AppStackScreens from "./src/stacks/AppStackScreens";
 import { FirebaseProvider } from "./src/utils/FirebaseContext";
 
 
+// https://lottiefiles.com/search?q=sun&category=animations
+
+
+
 // rnfes =  react native function export component
 
 export default function App() {
