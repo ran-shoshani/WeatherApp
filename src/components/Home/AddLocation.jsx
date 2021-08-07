@@ -10,6 +10,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import * as Location from 'expo-location';
 
 const AddLocation = ({handleSearch}) => {
+
+
   // states for this component
   const [searchInput, setSearchInput] = useState("");
   const [errorMsg,setErrorMsg] = useState('');
@@ -18,8 +20,6 @@ const AddLocation = ({handleSearch}) => {
   // context for this component
 
   // hook call for this component
-
-
 
   //functions for this component
  
