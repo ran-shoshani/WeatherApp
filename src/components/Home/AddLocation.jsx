@@ -9,7 +9,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Location from 'expo-location';
 
-const AddLocation = ({handleSearch}) => {
+const AddLocation = ({handleSearch,updateCurrentLocation}) => {
 
 
   // states for this component
@@ -22,7 +22,15 @@ const AddLocation = ({handleSearch}) => {
   // hook call for this component
 
   //functions for this component
- 
+  const getLocation = async () => {
+    let location = await Location.getCurrentPositionAsync({accuracy:Location.Accuracy.Balanced})
+    console.log("getLocation @AddLocation.jsx - currentLocation: ", location);
+    const coords ={
+      latitude:location.coords.latitude,
+      longitude:location.coords.longitude
+    }
+    updateCurrentLocation(coords);
+  }
 
   return (
     <View style={styles.locationContainer}>
@@ -39,7 +47,7 @@ const AddLocation = ({handleSearch}) => {
           />
         </View>
         {/* location icon */}
-        <TouchableOpacity style={styles.currentLocation}>
+        <TouchableOpacity onPress={()=> getLocation()} style={styles.currentLocation}>
           <MaterialIcons name="my-location" size={24} color="black" />
         </TouchableOpacity>
       </View>
