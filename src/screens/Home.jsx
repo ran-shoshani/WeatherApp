@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect , useRef } from "react";
 import { StyleSheet, Text, View, Button, TouchableOpacity , FlatList , Alert } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // name import
 import { ROUTES } from "../utils/constants";
 import { MaterialIcons } from "@expo/vector-icons";
+import {ASYNC_CITY_LIST} from "../utils/constants";
 // default import
 import AddLocation from "../components/Home/AddLocation";
 import ListItem from "../components/Home/list/ListItem";
@@ -13,14 +15,16 @@ import API_CALL from "../utils/clientSecrets/openWeather";
 
 
 const Home = ({ navigation }) => {
+
+
+  //ref 
+  const firstRender = useRef(true);
+
   // states for this component
-  const [cityListSource, setCityListSource] = useState([
-    { name: "loading current location", id: "999" },
-  ]);
+  const [cityListSource, setCityListSource] = useState([]);
+  const [currentPosition,setCurrentPosition] = useState({name: "loading current location", id: "-1" });
   
-
   // hook call for this component
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -32,6 +36,10 @@ const Home = ({ navigation }) => {
   }, [navigation]);
 
   useEffect(() => {
+
+    // loada from CityListSource storage
+    loadFromStorage();
+
     // get currrentlocation here so it is ready
     (async () => {
       
@@ -61,7 +69,20 @@ const Home = ({ navigation }) => {
     })();
   }, []);
 
+  // save to storage after each render when the state of the item has been changed.
+  useEffect(() => {
+    if(firstRender.current){
+      firstRender.current = false;
+      return;
+    }
 
+    console.log("@useEffect,[cityListSource]: ",cityListSource);
+    saveToStorage();
+
+  },[cityListSource]);
+
+  //useRef() =>  ------------------
+  
 // funcions
   const searchByCoordinates = (coords) => {
     let {latitude,longitude} = coords;
@@ -71,28 +92,22 @@ const Home = ({ navigation }) => {
         axios
           .get(URL)
           .then((response) => {
-            console.log("response: ", response.data);
+            //console.log("response: ", response.data);
             currentLocation = {
               name: response.data.name,
               id: response.data.id.toString(),
             };
             // add currentlocation to the cityListSource array 
-            setCityListSource(cityListSource.splice(0, 1, currentLocation));
+            setCurrentPosition(currentLocation);
           })
           .catch((error) => {
             console.log("error @axios.get(): ", error);
-            setCityListSource(
-              cityListSource.splice(0, 1, {
-                name: "error getting location",
-                id: "9999",
-              })
-            );
+            setCurrentPosition({name: "error getting location",id: "-2"});
           })
           .finally(() => {
             // add currentlocation to the cityListSource array 
-            setCityListSource(cityListSource.splice(0, 1, currentLocation));
             console.log("axios.get finally");
-            console.log("@118 finally cityListSource: ", cityListSource);
+            
           });
   }
 
@@ -108,14 +123,36 @@ const Home = ({ navigation }) => {
 
 
   const saveToStorage = async () => {
-
+    try {
+      await AsyncStorage.setItem(ASYNC_CITY_LIST, JSON.stringify(cityListSource))
+        .then(() => {
+          //log a success message after storing the cityListSource list
+          console.log("@saveToStorage SAVING TO STORAGE SUCCESFULL: ");
+          console.log('data stored successfully');
+          console.log("stored data: ", JSON.stringify(cityListSource));
+        })
+    } catch (err) {
+      console.log(err.message);
+    }
   }
 
   const loadFromStorage = async () => {
-
+    try {
+      await AsyncStorage.getItem(ASYNC_CITY_LIST)
+        .then((stringifyCityList) => {
+          // if ASYNC_CITY_LIST is not null, there's a string to parse
+          if (stringifyCityList) {
+            console.log("@loadFromStorage LOADING FROM STORAGE SUCCESFULL: ");
+            console.log("stringifyTodoList: ", stringifyCityList);
+            const parseCityList = JSON.parse(stringifyCityList)
+            setCityListSource(parseCityList);
+          }
+        });
+    } catch (err) {
+      console.log("@loadFromStorage: ",err.message);
+    }
   }
 
-  
 
   const handleSearch = (searchInput) => {
     console.log("handleSearch", searchInput);
@@ -136,12 +173,23 @@ const Home = ({ navigation }) => {
       .catch((error) => {
         console.log("error @handleSearch axios.get(): ", error);
         Alert.alert("Location not found",error.message,[{text:"OK"}]);
-      });
+      })
+      .finally(() => {
+
+        saveToStorage();
+      })
   };
+
+  const deleteItem = (id) => {
+    const updatedList = cityListSource.filter(item  => item.id != id);
+    setCityListSource(updatedList);
+    saveToStorage();
+  }
+
 
   const renderItem = ({ item }) => {
     //console.log('item in renderlist:', item);
-    return <ListItem item={item} />;
+    return (<ListItem item={item} deleteItem={deleteItem} />) ;
   };
 
   
@@ -160,7 +208,7 @@ const Home = ({ navigation }) => {
       <FlatList
         data={cityListSource}
         renderItem={renderItem}
-        ListHeaderComponent={ListHeader}
+        ListHeaderComponent={<ListHeader location={currentPosition}/>}
       />
       <Button
         onPress={() => navigation.navigate(ROUTES.PROFILE)}

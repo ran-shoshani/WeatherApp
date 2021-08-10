@@ -4,10 +4,10 @@ import { StyleSheet, Text, View } from 'react-native'
 
 
 
-const ListHeader = () => {
+const ListHeader = ({location}) => {
     return (
         <View style={styles.background}>
-            <Text style={styles.text}>Cities List Header</Text>
+            <Text style={styles.text}>{location.name}</Text>
         </View>
     )
 }
@@ -16,7 +16,8 @@ export default ListHeader
 
 const styles = StyleSheet.create({
     background:{
-        backgroundColor:'gray',
+        alignItems:'center',
+        backgroundColor:'silver',
         minWidth:'100%',
     },
     text:{

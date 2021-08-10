@@ -1,27 +1,33 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from "react";
+import { StyleSheet, Text, View , TouchableOpacity } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
+const ListItem = ({ item , deleteItem }) => {
+  return (
+    <View style={styles.background}>
+      <Text style={styles.text}>{item.name}</Text>
+      <TouchableOpacity style={styles.deleteIcon} onPress={() => deleteItem(item.id)}>
+        <MaterialIcons name="remove-circle" size={24} color="black" />
+      </TouchableOpacity>
+    </View>
+  );
+};
 
-
-
-
-const ListItem = ({item}) => {
-
-    return (
-        <View style={styles.background}>
-            <Text style={styles.text}>{item.name}</Text>
-        </View>
-    )
-}
-
-export default ListItem
+export default ListItem;
 
 const styles = StyleSheet.create({
-    background:{
-        alignItems:'center',
-        backgroundColor:'lightblue'
-    },
-    text:{
-        fontSize:20,
-    }
-})
+  background: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: 'space-between',
+    backgroundColor: "lightblue",
+
+  },
+  text: {
+    fontSize: 20,
+  },
+  deleteIcon: {
+    
+  },
+});
