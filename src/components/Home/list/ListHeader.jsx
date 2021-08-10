@@ -1,14 +1,26 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View , TouchableOpacity } from 'react-native'
+import { useNavigation } from "@react-navigation/native";
 
+import { ROUTES } from "../../../utils/constants";
 
 
 
 const ListHeader = ({location}) => {
+
+    const navigation = useNavigation();
+
+  // functions
+  const listItemHandler = (item) => {
+    console.log("@listItemHandler locationID: ", item.id);
+    navigation.navigate(ROUTES.WEATHER_DETAILS,{item});
+  };
+
+  
     return (
-        <View style={styles.background}>
+        <TouchableOpacity style={styles.background} onPress={() => listItemHandler(location)}>
             <Text style={styles.text}>{location.name}</Text>
-        </View>
+        </TouchableOpacity>
     )
 }
 

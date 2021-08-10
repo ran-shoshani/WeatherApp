@@ -96,7 +96,9 @@ const Home = ({ navigation }) => {
             currentLocation = {
               name: response.data.name,
               id: response.data.id.toString(),
+              coord: response.data.coord,
             };
+            console.log("@searchByCoordinates object:", currentLocation)
             // add currentlocation to the cityListSource array 
             setCurrentPosition(currentLocation);
           })
@@ -157,6 +159,7 @@ const Home = ({ navigation }) => {
   const handleSearch = (searchInput) => {
     console.log("handleSearch", searchInput);
 
+    //api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid={API key}
     const URL = `${API_CALL.BASE_URL}q=${searchInput}${API_CALL.UNIT}${API_CALL.KEY}`;
     axios
       .get(URL)
@@ -165,6 +168,7 @@ const Home = ({ navigation }) => {
         let currrentLcation = {
           name: response.data.name,
           id: response.data.id.toString(),
+          coord: response.data.coord,
         };
         console.log("currrentLcation: ", currrentLcation);
 
