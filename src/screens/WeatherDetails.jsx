@@ -1,34 +1,40 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { StyleSheet, Text, View, Button, TouchableOpacity,Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+} from "react-native";
 import { ROUTES } from "../utils/constants";
 import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import API_CALL from "../utils/clientSecrets/openWeather";
 import WeatherIcons from "../components/weatherDetails/WeatherIcons";
 
-
 const WeatherDetails = ({ navigation, route }) => {
   // destruxture the item from params
   const { lat, lon } = route.params.item.coord;
   //const
-  
+
+  const image = require("../styles/blur-background.jpeg");
+
   // states
   const [currentWeather, setCurrentWeather] = useState([]);
   const [hourlyForecast, setHourlyForecast] = useState([]);
   const [dailyForecase, setDailyForecast] = useState([]);
-  const [weatherIcon,setWeatherIcon] = useState();
+  const [weatherIcon, setWeatherIcon] = useState();
   // hooks
   const handleHeaderPress = () => {
     console.log("Header button pressed");
     navigation.navigate(ROUTES.PROFILE);
   };
 
-
   // const { main: { temp , temp_min, temp_max }, weather: [details], name ,dt} = currentWeather;
   //   const { icon, main, description } = details;
   //const icon = currentWeather.icon;
-
-  
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -69,7 +75,7 @@ const WeatherDetails = ({ navigation, route }) => {
         // console.log("Daily Forecast: ", response.data.daily);
 
         setWeatherIcon(response.data.current.weather[0].icon);
-        
+
         console.log("test weatherIcon: ", weatherIcon);
       })
       .catch((error) => {
@@ -80,26 +86,29 @@ const WeatherDetails = ({ navigation, route }) => {
       });
   }, []);
 
-
   // functions
 
   return (
     <View style={styles.background}>
-      <Text style={styles.title}>Weather Details</Text>
-      <View style={styles.text}>
-        <View>
-          <Text ></Text>
-          <Text>Latitude:{lat}</Text>
-          <Text>Longitude:{lon}</Text>
-        </View>
+      <ImageBackground style={styles.image} source={image} resizeMode="cover">
+        <View style={styles.content}>
+          <Text style={styles.title}>Weather Details</Text>
+          <View style={styles.textView}>
+            <View>
+              <Text style={styles.text}>Latitude:{lat}</Text>
+              <Text style={styles.text}>Longitude:{lon}</Text>
+            </View>
 
-        <View style={styles.info}>
-          <Text>temp:{currentWeather.temp}°</Text>
-          <Text>feel like:{currentWeather.feels_like}°</Text>
+            <View style={styles.info}>
+              <Text style={styles.text}>temp:{currentWeather.temp}°</Text>
+              <Text style={styles.text}>feel like:{currentWeather.feels_like}°</Text>
+              <WeatherIcons icon={weatherIcon} />
+            </View>
 
-          <WeatherIcons icon={weatherIcon}/>
+            <View></View>
+          </View>
         </View>
-      </View>
+      </ImageBackground>
     </View>
   );
 };
@@ -108,28 +117,42 @@ export default WeatherDetails;
 
 const styles = StyleSheet.create({
   background: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "lightblue",
-    width: "100%",
-    fontSize: 20,
-    fontWeight: "bold",
+    flex: 1,
+    //display: "flex",
+    //flexDirection: "column",
+    //alignItems: "center",
+    //justifyContent: "space-between",
+    //backgroundColor: "lightblue",
+    //width: "100%",
+    //fontSize: 20,
+    //fontWeight: "bold",
   },
-  text: {
+  content:{
+    marginTop:30,
+    color: "white",
+  },
+  textView: {
     width: "80%",
-    fontSize: 20,
-    fontWeight: "bold",
     padding: 10,
+    
+  },
+  text:{
+    color: "white",
+    fontSize: 25,
+    fontWeight: "bold",
   },
   info: {
-    fontSize: 40,
+    color: "white",
+    fontSize: 60,
     fontWeight: "bold",
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
     backgroundColor: "lightblue",
-  }
+  },
+  image: {
+    flex: 1,
+    //justifyContent: "center",
+  },
 });
