@@ -46,6 +46,21 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontWeight: "bold",
+    padding: 10,
   },
-  deleteIcon: {},
+  deleteIcon: {
+    padding: 10,
+  },
 });
+
+
+
+// display: 'flex',
+//         flexDirection: 'row',
+//         alignItems: 'center',
+//         justifyContent: 'space-between',
+
+
+// addIcon: {
+//   padding: 10,
+// },
