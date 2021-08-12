@@ -6,6 +6,7 @@ import {
   Button,
   TouchableOpacity,
   TextInput,
+  ImageBackground
 } from "react-native";
 import { ROUTES } from "../utils/constants";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -15,6 +16,9 @@ import { authStyles } from "../styles/authStyles";
 
 const Profile = ({ navigation }) => {
 
+
+  const image = require("../styles/frog1.jpg");
+  
   //states for this component
   const firebase = useContext(FirebaseContext);
   const [_, setUser] = useContext(UserContext);
@@ -106,6 +110,7 @@ const Profile = ({ navigation }) => {
 
   return (
     <View style={styles.profileContainer}>
+      <ImageBackground style={styles.image} source={image} resizeMode="cover">
       <View style={styles.updateUserNameContainer}>
       {/* UPDATE USER NAME*/}
         <View style={styles.inputView}>
@@ -129,6 +134,7 @@ const Profile = ({ navigation }) => {
 
 
       <View style={styles.updatePasswordContainer}>
+      
         {/* UPDATE PASSWORD */}
         <View style={styles.inputView}>
           <Text style={styles.inputHeader}>New Password</Text>
@@ -184,6 +190,7 @@ const Profile = ({ navigation }) => {
           <Text style={styles.saveButtonText}>Update Password</Text>
         </TouchableOpacity>
       </View>
+      </ImageBackground>
     </View>
   );
 };
@@ -251,6 +258,10 @@ const styles = StyleSheet.create({
   },
   inputHeader: {
     fontSize: 10,
+  },
+  image: {
+    flex: 1,
+    //justifyContent: "center",
   },
 });
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect , useRef } from "react";
-import { StyleSheet, Text, View, Button, TouchableOpacity , FlatList , Alert } from "react-native";
+import { StyleSheet, Text, View, Button, TouchableOpacity , FlatList , Alert , ImageBackground } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // name import
 import { ROUTES } from "../utils/constants";
@@ -16,6 +16,7 @@ import API_CALL from "../utils/clientSecrets/openWeather";
 
 const Home = ({ navigation }) => {
 
+  const image = require("../styles/frog1.jpg");
 
   //ref 
   const firstRender = useRef(true);
@@ -204,6 +205,7 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={styles.centerAlign}>
+      <ImageBackground style={styles.image} source={image} resizeMode="cover">
       <AddLocation handleSearch={handleSearch} updateCurrentLocation={updateCurrentLocation} />
       {/* <Text>Home 4</Text> */}
       {/* API data => to city name */}
@@ -214,10 +216,8 @@ const Home = ({ navigation }) => {
         renderItem={renderItem}
         ListHeaderComponent={<ListHeader location={currentPosition}/>}
       />
-      <Button
-        onPress={() => navigation.navigate(ROUTES.PROFILE)}
-        title="Profile Page"
-      />
+      
+      </ImageBackground>
     </View>
   );
 };
@@ -228,6 +228,10 @@ const styles = StyleSheet.create({
   centerAlign: {
     flex: 1,
     alignItems: "center",
+    //justifyContent: "center",
+  },
+  image: {
+    flex: 1,
     //justifyContent: "center",
   },
 });

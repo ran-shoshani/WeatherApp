@@ -13,19 +13,24 @@ import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import API_CALL from "../utils/clientSecrets/openWeather";
 import WeatherIcons from "../components/weatherDetails/WeatherIcons";
+import { CurrentRenderContext } from "@react-navigation/native";
 
 const WeatherDetails = ({ navigation, route }) => {
   // destruxture the item from params
   const { lat, lon } = route.params.item.coord;
   //const
 
-  const image = require("../styles/blur-background.jpeg");
+  const image = require("../styles/frog1.jpg");
 
   // states
   const [currentWeather, setCurrentWeather] = useState([]);
   const [hourlyForecast, setHourlyForecast] = useState([]);
   const [dailyForecase, setDailyForecast] = useState([]);
   const [weatherIcon, setWeatherIcon] = useState();
+  const [weatherDescription, setWeatherDescription] = useState();
+  const [weatherMain, setWeatherMain] = useState();
+  const [currentDateTime, setCurrentDateTime] = useState();
+  
   // hooks
   const handleHeaderPress = () => {
     console.log("Header button pressed");
@@ -76,7 +81,35 @@ const WeatherDetails = ({ navigation, route }) => {
 
         setWeatherIcon(response.data.current.weather[0].icon);
 
-        console.log("test weatherIcon: ", weatherIcon);
+        const { description, icon, id, main } =
+          response.data.current.weather[0];
+        setWeatherDescription(description);
+        setWeatherMain(main);
+
+        const { dt, sunrise, sunset, temp, humidity, clouds, uvi } =
+          response.data.current;
+
+
+        // setCurrentDateTime(dt);
+        console.log(" time date1: ", dt);
+        var unix_timestamp = dt;
+        console.log(" time date2: ", unix_timestamp);
+        var date = new Date(unix_timestamp * 1000);
+
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var month = months[date.getMonth()];
+        var day = date.getDate();
+        // Hours part from the timestamp
+        var hours = date.getHours();
+        // Minutes part from the timestamp
+        var minutes = "0" + date.getMinutes();
+        // Seconds part from the timestamp
+        var seconds = "0" + date.getSeconds();
+        
+        // Will display time in 10:30:23 format
+        var formattedTime = day + ' ' + month + ' ' + hours + ':' + minutes.substr(-2) ;
+        setCurrentDateTime(formattedTime);
+        console.log(" time date3: ", currentDateTime);
       })
       .catch((error) => {
         console.log("error @axios.get(): ", error);
@@ -91,22 +124,34 @@ const WeatherDetails = ({ navigation, route }) => {
   return (
     <View style={styles.background}>
       <ImageBackground style={styles.image} source={image} resizeMode="cover">
-        <View style={styles.content}>
-          <Text style={styles.title}>Weather Details</Text>
-          <View style={styles.textView}>
-            <View>
-              <Text style={styles.text}>Latitude:{lat}</Text>
-              <Text style={styles.text}>Longitude:{lon}</Text>
-            </View>
+        <View style={styles.title1}>
+          <Text>Weather Details</Text>
+          
+        </View>
 
-            <View style={styles.info}>
-              <Text style={styles.text}>temp:{currentWeather.temp}°</Text>
-              <Text style={styles.text}>feel like:{currentWeather.feels_like}°</Text>
-              <WeatherIcons icon={weatherIcon} />
-            </View>
-
-            <View></View>
+        <View style={styles.containerRow}>
+          <View style={styles.info}>
+            <Text style={styles.text}>{weatherDescription} </Text>
+            <Text style={styles.text}>
+              feel like{currentWeather.feels_like}°
+            </Text>
+            <WeatherIcons icon={weatherIcon} />
           </View>
+
+          <View style={styles.info}>
+            <Text style={styles.text2}>CURRENTLY</Text>
+            <Text style={styles.text}>{currentWeather.temp}°</Text>
+          </View>
+        </View>
+
+        {/* time and date */}
+        <View style={styles.text2}>
+          <Text>{currentDateTime}</Text>
+        </View>
+
+        <View style={styles.text3}>
+          <Text style={styles.text}>Latitude:{lat}</Text>
+          <Text style={styles.text}>Longitude:{lon}</Text>
         </View>
       </ImageBackground>
     </View>
@@ -118,38 +163,50 @@ export default WeatherDetails;
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    //display: "flex",
-    //flexDirection: "column",
-    //alignItems: "center",
-    //justifyContent: "space-between",
-    //backgroundColor: "lightblue",
-    //width: "100%",
-    //fontSize: 20,
-    //fontWeight: "bold",
   },
-  content:{
-    marginTop:30,
+  content: {
+    marginTop: 30,
     color: "white",
   },
-  textView: {
-    width: "80%",
-    padding: 10,
-    
-  },
-  text:{
+  text: {
     color: "white",
     fontSize: 25,
     fontWeight: "bold",
   },
+  text2: {
+    color: "white",
+    fontSize: 25,
+    fontWeight: "bold",
+  },
+  text3: {
+    fontSize: 10,
+    width: "80%",
+    padding: 10,
+  },
+  containerRow: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderWidth: 1,
+  },
   info: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
     color: "white",
     fontSize: 60,
     fontWeight: "bold",
   },
-  title: {
-    fontSize: 20,
+  title1: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    fontSize: 40,
     fontWeight: "bold",
-    backgroundColor: "lightblue",
+    color: "white",
+    //backgroundColor: "lightblue",
   },
   image: {
     flex: 1,
