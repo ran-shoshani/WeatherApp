@@ -18,7 +18,7 @@ const ListHeader = ({ location }) => {
       style={styles.background}
       onPress={() => listItemHandler(location)}
     >
-      <Text style={styles.text}>{location.name}</Text>
+      <Text style={styles.text}>Current Location: {location.name}</Text>
     </TouchableOpacity>
   );
 };
@@ -29,13 +29,13 @@ const styles = StyleSheet.create({
   background: {
     display: "flex",
     flexDirection: "row",
-
     alignItems: "center",
-    backgroundColor: "silver",
-  
     width: "80%",
   },
   text: {
-    fontSize: 24,
+    fontSize: 20,
+    fontWeight: "bold",
+    padding: 10,
+
   },
 });

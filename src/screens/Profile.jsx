@@ -6,7 +6,8 @@ import {
   Button,
   TouchableOpacity,
   TextInput,
-  ImageBackground
+  ImageBackground,
+  StatusBar
 } from "react-native";
 import { ROUTES } from "../utils/constants";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -35,10 +36,16 @@ const Profile = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={handleHeaderPress}>
+        <>
+        <StatusBar translucent={true} backgroundColor="#539edd" barStyle="dark-content"/>
+        <TouchableOpacity style={{marginRight: 20}} onPress={handleHeaderPress}>
           <Text>Sign Out</Text>
         </TouchableOpacity>
+        </>
       ),
+      headerStyle:{
+        backgroundColor:"#529edd",
+      }
     });
   }, [navigation]);
 
@@ -109,7 +116,7 @@ const Profile = ({ navigation }) => {
 
 
   return (
-    <View style={styles.profileContainer}>
+    <View style={styles.container}>
       <ImageBackground style={styles.image} source={image} resizeMode="cover">
       <View style={styles.updateUserNameContainer}>
       {/* UPDATE USER NAME*/}
@@ -198,21 +205,21 @@ const Profile = ({ navigation }) => {
 export default Profile;
 
 const styles = StyleSheet.create({
-  profileContainer: {
+  container: {
     flex: 1,
-    alignItems: "center",
-    marginTop: 25,
   },
   updateUserNameContainer: {
-    width: "90%",
-    borderWidth: 1,
-    borderColor: "black",
+    marginTop:20,
+    padding: 10,
+    //borderWidth: 1,
+    //borderColor: "black",
   },
 
   updatePasswordContainer: {
-    width: "90%",
-    borderWidth: 1,
-    borderColor: "black",
+    marginTop:20,
+    padding: 10,
+    //borderWidth: 1,
+    //borderColor: "black",
   },
   inputView: {
     padding: 10,
@@ -220,10 +227,10 @@ const styles = StyleSheet.create({
   },
 
   saveButton: {
-    width:'80%',
+    width:'95%',
     alignSelf: "center",
     padding: 10,
-    backgroundColor:'#DCE5FD',
+    backgroundColor:'#9e9e9eac',
     borderRadius: 5,
     borderColor: "black",
     borderWidth: 1,
@@ -265,62 +272,3 @@ const styles = StyleSheet.create({
   },
 });
 
-//<Button onPress={() => navigation.navigate(ROUTES.SIGN_IN)} title='Sign out'/>
-
-//{
-//   /* <View style={styles.profileContainer}>
-//       {/* UPDATE PROFILE UI */
-// }
-
-// {
-//   /* TEXT INPUT to get that value from user */
-// }
-// //   <Text>Update user name</Text>
-// //   <View style={styles.userNameContainer}>
-// //     <TextInput
-// //       placeholder={"name"}
-// //       value={newUsername}
-// //       onChangeText={(value) => setNewUsername(value)}
-// //     />
-
-// //     {/* save button */}
-// //     <TouchableOpacity onPress={handleUpdateUsername}>
-// //       <Text>{"Save Name"}</Text>
-// //     </TouchableOpacity>
-// //   </View>
-
-// //   {/* UPDATE PASSWORD UI */}
-// //   {/* TEXT value= new password */}
-// //   {/* userPasswordView */}
-
-// //   <View style={styles.passwordContainer}>
-// //   <Text>Update user Password</Text>
-// //     {/* TEXT INPUT to get that value from user */}
-// //     <View style={styles.passwordView}>
-// //       <TextInput
-// //         placeholder={"new password"}
-// //         value={newPassword}
-// //         onChangeText={(value) => setNewPassword(value)}
-// //       />
-// //     </View>
-
-
-
-
-//-------------------------------------------
-//      {/* ------- current password */}
-//      <Text>Confirm Current Password</Text>
-//      {/* TEXT INPUT to get that value from user */}
-//      <View style={styles.currentUserPasswordView}>
-//        <TextInput
-//          placeholder={"current password"}
-//          value={currentPassword}
-//          onChangeText={(value) => setCurrentPassword(value)}
-//        />
-//      </View>
-//      {/* save button */}
-//      <TouchableOpacity onPress={handleUpdatePassword}>
-//          <Text>{"Save Password"}</Text>
-//        </TouchableOpacity>
-//    </View>
-//  </View> }*/

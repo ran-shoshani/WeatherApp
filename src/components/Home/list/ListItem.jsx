@@ -22,10 +22,7 @@ const ListItem = ({ item, deleteItem }) => {
       onPress={() => listItemHandler(item)}
     >
       <Text style={styles.text}>{item.name}</Text>
-      <TouchableOpacity
-        style={styles.deleteIcon}
-        onPress={() => deleteItem(item.id)}
-      >
+      <TouchableOpacity style={styles.deleteIcon} onPress={() => deleteItem(item.id)}>
         <MaterialIcons name="remove-circle" size={24} color="black" />
       </TouchableOpacity>
     </TouchableOpacity>
@@ -40,8 +37,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "lightblue",
-    width: "70%",
+    borderBottomWidth: 1,
+    margin: 10,
+   
   },
   text: {
     fontSize: 20,

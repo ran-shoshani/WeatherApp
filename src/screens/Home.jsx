@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect , useRef } from "react";
-import { StyleSheet, Text, View, Button, TouchableOpacity , FlatList , Alert , ImageBackground } from "react-native";
+import { StyleSheet, Text, View, Button, TouchableOpacity , FlatList , Alert , ImageBackground , StatusBar } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // name import
 import { ROUTES } from "../utils/constants";
@@ -29,10 +29,16 @@ const Home = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={handleHeaderPress}>
+        <>
+        <StatusBar translucent={true} backgroundColor="#539edd" barStyle="dark-content"/>
+        <TouchableOpacity style={{marginRight: 20}} onPress={handleHeaderPress}>
           <MaterialIcons name="account-circle" size={24} color="black" />
         </TouchableOpacity>
+        </>
       ),
+      headerStyle:{
+        backgroundColor:"#529edd",
+      }
     });
   }, [navigation]);
 
@@ -204,13 +210,10 @@ const Home = ({ navigation }) => {
   
 
   return (
-    <View style={styles.centerAlign}>
+    <View style={styles.container}>
       <ImageBackground style={styles.image} source={image} resizeMode="cover">
       <AddLocation handleSearch={handleSearch} updateCurrentLocation={updateCurrentLocation} />
-      {/* <Text>Home 4</Text> */}
-      {/* API data => to city name */}
-      {/* Location */}
-      {/* Flat List + cities */}
+      
       <FlatList
         data={cityListSource}
         renderItem={renderItem}
@@ -225,10 +228,8 @@ const Home = ({ navigation }) => {
 export default Home;
 
 const styles = StyleSheet.create({
-  centerAlign: {
+  container: {
     flex: 1,
-    alignItems: "center",
-    //justifyContent: "center",
   },
   image: {
     flex: 1,

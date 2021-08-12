@@ -33,7 +33,7 @@ const AddLocation = ({handleSearch,updateCurrentLocation}) => {
   }
 
   return (
-    <View style={styles.locationContainer}>
+    <View style={styles.container}>
       <View style={styles.locationRow}>
         <View style={styles.search}>
           <MaterialIcons name="search" size={24} color="black" />
@@ -58,23 +58,25 @@ const AddLocation = ({handleSearch,updateCurrentLocation}) => {
 export default AddLocation;
 
 const styles = StyleSheet.create({
-  locationContainer: {
-    //alignItems: center,
+  container: {
+    paddingHorizontal:10,
+   
   },
   locationRow: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-around",
-    width: "80%",
     marginTop: 10,
+    marginBottom: 10,
     borderWidth: 1,
+    alignItems: "center",
   },
   search: {
     flexDirection: "row",
     flex: 1,
     padding: 10,
     marginHorizontal: 5,
-    //borderWidth:6,
+    alignItems: "center",
   },
   searchInput: {
     fontSize: 20,
@@ -83,10 +85,6 @@ const styles = StyleSheet.create({
   },
   currentLocation: {
     padding: 10,
-    marginHorizontal: 10,
   },
 });
-{
-  /* <MaterialIcons name="search" size={24} color="black" />
-<MaterialIcons name="my-location" size={24} color="black" /> */
-}
+

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  StatusBar
 } from "react-native";
 import { ROUTES } from "../utils/constants";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -18,6 +19,7 @@ import { CurrentRenderContext } from "@react-navigation/native";
 const WeatherDetails = ({ navigation, route }) => {
   // destruxture the item from params
   const { lat, lon } = route.params.item.coord;
+
   //const
 
   const image = require("../styles/frog1.jpg");
@@ -30,27 +32,36 @@ const WeatherDetails = ({ navigation, route }) => {
   const [weatherDescription, setWeatherDescription] = useState();
   const [weatherMain, setWeatherMain] = useState();
   const [currentDateTime, setCurrentDateTime] = useState();
-  
+  const [timeZone,setTimeZone] = useState();
+
+
   // hooks
   const handleHeaderPress = () => {
     console.log("Header button pressed");
     navigation.navigate(ROUTES.PROFILE);
   };
 
-  // const { main: { temp , temp_min, temp_max }, weather: [details], name ,dt} = currentWeather;
-  //   const { icon, main, description } = details;
-  //const icon = currentWeather.icon;
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={handleHeaderPress}>
+        <>
+        <StatusBar translucent={true} backgroundColor="#539edd" barStyle="dark-content"/>
+        <TouchableOpacity style={{marginRight: 20}} onPress={handleHeaderPress}>
           <MaterialIcons name="account-circle" size={24} color="black" />
         </TouchableOpacity>
+        </>
       ),
       title: route.params.item.name,
+      headerStyle:{
+        backgroundColor:"#529edd",
+      }
     });
   }, [navigation]);
+
+
+
+
 
   useEffect(() => {
     console.log("route param item", route.params.item);
@@ -86,30 +97,15 @@ const WeatherDetails = ({ navigation, route }) => {
         setWeatherDescription(description);
         setWeatherMain(main);
 
-        const { dt, sunrise, sunset, temp, humidity, clouds, uvi } =
-          response.data.current;
+        const { dt, sunrise, sunset, temp, humidity, clouds, uvi } = response.data.current;
 
 
-        // setCurrentDateTime(dt);
-        console.log(" time date1: ", dt);
-        var unix_timestamp = dt;
-        console.log(" time date2: ", unix_timestamp);
-        var date = new Date(unix_timestamp * 1000);
-
-        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        var month = months[date.getMonth()];
-        var day = date.getDate();
-        // Hours part from the timestamp
-        var hours = date.getHours();
-        // Minutes part from the timestamp
-        var minutes = "0" + date.getMinutes();
-        // Seconds part from the timestamp
-        var seconds = "0" + date.getSeconds();
+        getTimeZoneCity(response.data.timezone);
         
-        // Will display time in 10:30:23 format
-        var formattedTime = day + ' ' + month + ' ' + hours + ':' + minutes.substr(-2) ;
-        setCurrentDateTime(formattedTime);
-        console.log(" time date3: ", currentDateTime);
+       
+        
+        setTimeDate(dt);
+        
       })
       .catch((error) => {
         console.log("error @axios.get(): ", error);
@@ -121,8 +117,38 @@ const WeatherDetails = ({ navigation, route }) => {
 
   // functions
 
+  const getTimeZoneCity = (value) => {
+  let timeZoneArray = value.split("/");
+  setTimeZone(timeZoneArray[1]);
+};
+
+const setTimeDate = (dt) => {
+// setCurrentDateTime(dt);
+console.log(" time date1: ", dt);
+var unix_timestamp = dt;
+console.log(" time date2: ", unix_timestamp);
+var date = new Date(unix_timestamp * 1000);
+
+var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var month = months[date.getMonth()];
+var day = date.getDate();
+// Hours part from the timestamp
+var hours = date.getHours();
+// Minutes part from the timestamp
+var minutes = "0" + date.getMinutes();
+// Seconds part from the timestamp
+var seconds = "0" + date.getSeconds();
+
+// Will display time in 10:30:23 format
+var formattedTime = day + ' ' + month + ' ' + hours + ':' + minutes.substr(-2) ;
+setCurrentDateTime(formattedTime);
+console.log(" time date3: ", currentDateTime);
+};
+
+
   return (
-    <View style={styles.background}>
+
+    <View style={styles.container}>
       <ImageBackground style={styles.image} source={image} resizeMode="cover">
         <View style={styles.title1}>
           <Text>Weather Details</Text>
@@ -146,6 +172,7 @@ const WeatherDetails = ({ navigation, route }) => {
 
         {/* time and date */}
         <View style={styles.text2}>
+          <Text>{timeZone}</Text>
           <Text>{currentDateTime}</Text>
         </View>
 
@@ -161,7 +188,7 @@ const WeatherDetails = ({ navigation, route }) => {
 export default WeatherDetails;
 
 const styles = StyleSheet.create({
-  background: {
+  container: {
     flex: 1,
   },
   content: {
@@ -210,6 +237,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
+    
     //justifyContent: "center",
   },
 });
