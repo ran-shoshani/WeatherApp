@@ -8,6 +8,7 @@ import {
   TextInput,
   Alert,
   ActivityIndicator,
+  StatusBar
 } from "react-native";
 import { ROUTES } from "../utils/constants";
 import { UserContext } from "../utils/UserContext";
@@ -56,61 +57,69 @@ const SignIn = ({ navigation }) => {
 
   // return function with UI
   return (
-    <View style={authStyles.centerAlign}>
-      <Text>Sign In</Text>
+    <View style={authStyles.container}>
+      <StatusBar
+        translucent={true}
+        backgroundColor="#539edd"
+        barStyle="dark-content"
+      />
+      <View style={authStyles.centerAlign}>
+        <Text style={authStyles.pageHeader}>Welcome Back</Text>
 
-      <View style={authStyles.emailView}>
-        <Text style={authStyles.viewHeader}>Email: </Text>
-        <TextInput
-          style={authStyles.textInput}
-          value={email}
-          onChangeText={(email) => setEmail(email.trim())}
-          placeholder={"email@example.com"}
-        />
-      </View>
-
-      <View style={authStyles.passwordView}>
-        <Text style={authStyles.viewHeader}>Password: </Text>
-
-        <View style={authStyles.passwordRow}>
+        <View style={authStyles.inputView}>
+          <Text style={authStyles.viewHeader}>Email: </Text>
           <TextInput
             style={authStyles.textInput}
-            value={password}
-            onChangeText={(password) => setPassword(password.trim())}
-            placeholder={"*******"}
-            secureTextEntry={passwordHidden}
+            value={email}
+            onChangeText={(email) => setEmail(email.trim())}
+            placeholder={"email@example.com"}
           />
-          <TouchableOpacity
-            style={authStyles.passwordIcon}
-            onPress={() => setPasswordHidden(!passwordHidden)}
-          >
-            <MaterialIcons
-              name={`visibility${passwordHidden ? "-off" : ""}`}
-              size={24}
-              color="black"
+        </View>
+
+        <View style={authStyles.passwordView}>
+          <Text style={authStyles.viewHeader}>Password: </Text>
+
+          <View style={authStyles.passwordRow}>
+            <TextInput
+              style={authStyles.textInput}
+              value={password}
+              onChangeText={(password) => setPassword(password.trim())}
+              placeholder={"*******"}
+              secureTextEntry={passwordHidden}
             />
+            <TouchableOpacity
+              style={authStyles.passwordIcon}
+              onPress={() => setPasswordHidden(!passwordHidden)}
+            >
+              <MaterialIcons
+                name={`visibility${passwordHidden ? "-off" : ""}`}
+                size={24}
+                color="black"
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={authStyles.submitButtonView}>
+          <TouchableOpacity
+            onPress={handleSignin}
+            style={authStyles.submitButton}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator size={"large"} color="#529edd" />
+            ) : (
+              <Text style={authStyles.submitButtonText}>{"Sign In"}</Text>
+            )}
           </TouchableOpacity>
         </View>
-      </View>
 
-      <View style={authStyles.signInView}>
-        <TouchableOpacity
-          onPress={handleSignin}
-          style={authStyles.signInButton}
-        >
-          {loading ? (
-            <ActivityIndicator size={"large"} color="#0000ff" />
-          ) : (
-            <Text style={authStyles.signInText}>{"Sign In"}</Text>
-          )}
-        </TouchableOpacity>
-      </View>
-
-      <View style={authStyles.signUpView}>
-        <Text style={authStyles.signUpText}>{"Not a member yet?"}</Text>
-        <TouchableOpacity onPress={() => navigation.navigate(ROUTES.SIGN_UP)}>
-          <Text style={authStyles.signUpLink}>{"Sign Up"}</Text>
-        </TouchableOpacity>
+        <View style={authStyles.bottomNavView}>
+          <Text style={authStyles.bottomNavText}>{"Not a member yet?"}</Text>
+          <TouchableOpacity onPress={() => navigation.navigate(ROUTES.SIGN_UP)}>
+            <Text style={authStyles.bottomNavLink}>{"Sign Up"}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

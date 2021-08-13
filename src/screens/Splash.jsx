@@ -2,18 +2,24 @@ import React, { useEffect, useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { UserContext } from "../utils/UserContext";
 import { FirebaseContext } from "../utils/FirebaseContext";
+import LottieView from "lottie-react-native";
 
 const Splash = () => {
+  // contexs
   const [_, setUser] = useContext(UserContext);
   const firebase = useContext(FirebaseContext);
-    
-  useEffect(() => {
 
+  // hooks
+  useEffect(() => {
     console.log("Splash screen useEffect");
 
-    setTimeout(async () => {
-      const user = firebase.getCurrentUser();
-      console.log("user result : ", user);
+    getCurrentUser();
+  }, []);
+
+  // functions
+  const getCurrentUser = async () => {
+    try {
+      const user = await firebase.onAuthStateChanged();
 
       if (user) {
         console.log("Splash before getUserInfo()", user.uid);
@@ -31,13 +37,21 @@ const Splash = () => {
         console.log("---Splash screen useEffect user not found");
         setUser((state) => ({ ...state, isLoggedIn: false }));
       }
-      // 1 second
-    }, 2000);
-  }, []);
+    } catch (error) {
+      console.log("error checking for a user: ", error.message);
+    }
+  };
 
   return (
-    <View style={styles.centerAlign}>
-      <Text>Splash</Text>
+    <View style={styles.container}>
+      <View style={styles.main}>
+        <LottieView 
+          source={require("../../assets/animations/rotating-sun-loop.json")}
+          autoPlay
+          loop
+          style={{width:"100%"}}
+        />
+      </View>
     </View>
   );
 };
@@ -45,9 +59,12 @@ const Splash = () => {
 export default Splash;
 
 const styles = StyleSheet.create({
-  centerAlign: {
+  container: {
     flex: 1,
+  },
+  main: {
+    //justifyContent: "center",
+    marginTop:'50%',
     alignItems: "center",
-    justifyContent: "center",
   },
 });

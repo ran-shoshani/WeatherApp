@@ -13,7 +13,7 @@ import { ROUTES } from "../utils/constants";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FirebaseContext } from "../utils/FirebaseContext";
 import { UserContext } from "../utils/UserContext";
-import { authStyles } from "../styles/authStyles";
+
 
 const Profile = ({ navigation }) => {
 
@@ -154,7 +154,7 @@ const Profile = ({ navigation }) => {
             onChangeText={(value) => setNewPassword(value)}
           />
           <TouchableOpacity
-            style={authStyles.passwordIcon}
+            style={styles.passwordInputIcon}
             onPress={() => setPasswordHiddenNew(!passwordHiddenNew)}
           >
             <MaterialIcons
@@ -178,7 +178,7 @@ const Profile = ({ navigation }) => {
             onChangeText={(value) => setCurrentPassword(value)}
           />
           <TouchableOpacity
-            style={authStyles.passwordIcon}
+            style={styles.passwordInputIcon}
             onPress={() => setPasswordHiddenCurrent(!passwordHiddenCurrent)}
           >
             <MaterialIcons

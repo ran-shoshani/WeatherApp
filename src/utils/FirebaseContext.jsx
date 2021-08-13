@@ -1,137 +1,153 @@
-import React, { createContext } from 'react'
-import firebase from 'firebase';
-import 'firebase/auth';
-import 'firebase/firestore';
-import config from './clientSecrets/firebase'
-
-
+import React, { createContext } from "react";
+import firebase from "firebase";
+import "firebase/auth";
+import "firebase/firestore";
+import config from "./clientSecrets/firebase";
 
 // create a firebase context
 const FirebaseContext = createContext();
 
 // check the read only array of initialized firebase apps, if there are none in it, initialize one
-if(!firebase.apps.length){
-    firebase.initializeApp(config)
-};
+if (!firebase.apps.length) {
+  firebase.initializeApp(config);
+}
 
 //access the firestore services from firebase
 const db = firebase.firestore();
 
-
 // define an object with all the firebase functions
-const Firebase ={
-    getCurrentUser: ()=> {
-        const user = firebase.auth().currentUser;
-        console.log(" - Firebase.getCurrentUser()", user);
-        return user;
-        // return firebase.auth().currentUser;
+const Firebase = {
+  getCurrentUser: () => {
+    const user = firebase.auth().currentUser;
+    console.log(" - Firebase.getCurrentUser()", user);
+    return user;
+    // return firebase.auth().currentUser;
+  },
 
-    },
+  onAuthStateChanged: async () => {
+    return new Promise((resolve, reject) => {
+      try {
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            console.log(" - Firebase.getCurrentUser() UID", user.uid);
+            resolve(user);
+          } else {
+            console.log("user not found");
+            resolve(null);
+          }
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
 
-    createUser: async(user) => {
-        try {
-            // create a user in the authentication portion of firebase
-            await firebase.auth().createUserWithEmailAndPassword(user.email,user.password);
-            
-            // 
-            const uid = Firebase.getCurrentUser().uid;
+  createUser: async (user) => {
+    try {
+      // create a user in the authentication portion of firebase
+      await firebase
+        .auth()
+        .createUserWithEmailAndPassword(user.email, user.password);
 
-            await db.collection('users').doc(uid).set({
-                username: user.username,
-                email: user.email,
-            })
+      //
+      const uid = Firebase.getCurrentUser().uid;
 
-            // discard the user password
-            delete user.password;
+      await db.collection("users").doc(uid).set({
+        username: user.username,
+        email: user.email,
+      });
 
-        } catch (error) {
-            console.log('error @createUser ', error.message);
-        }
-    },
+      // discard the user password
+      delete user.password;
+    } catch (error) {
+      console.log("error @createUser ", error.message);
+    }
+  },
 
-    getUserInfo: async(uid)=> {
-        try {
-            const user = await db.collection('users').doc(uid).get()
+  getUserInfo: async (uid) => {
+    try {
+      const user = await db.collection("users").doc(uid).get();
 
-            if(user.exists){
-                return user.data()
-            }
+      if (user.exists) {
+        return user.data();
+      }
+    } catch (error) {
+      console.log("error @getUserInfo: ", error.message);
+    }
+  },
 
-        } catch (error) {
-            console.log('error @getUserInfo: ', error.message);
-        }
-    },
+  signOut: async () => {
+    try {
+      await firebase.auth().signOut();
+      return true;
+    } catch (error) {
+      console.log("error @signOut: ", error.message);
+    }
 
-    signOut: async () => {
-            try{
-                await firebase.auth().signOut();
-                return true;
-            }
-            catch(error){
-                console.log('error @signOut: ', error.message);
-            }
+    return false;
+  },
 
-            return false;
-        },
+  signIn: async (email, password) => {
+    return firebase.auth().signInWithEmailAndPassword(email, password);
+  },
 
-    signIn: async (email, password) => {
-        return firebase.auth().signInWithEmailAndPassword(email,password);
-    },
-
-    reauthenticateUser: async (currentPassword) => {
-        let credentials = firebase.auth.EmailAuthProvider.credential(
-        firebase.auth().currentUser.email,
-        currentPassword
+  reauthenticateUser: async (currentPassword) => {
+    let credentials = firebase.auth.EmailAuthProvider.credential(
+      firebase.auth().currentUser.email,
+      currentPassword
     );
-    try{
-        return firebase.auth().currentUser.reauthenticateWithCredential(credentials);
-    }catch(error)
-    {
-        console.log("error @reauthenticateUser", error.message);
-        return false;
+    try {
+      return firebase
+        .auth()
+        .currentUser.reauthenticateWithCredential(credentials);
+    } catch (error) {
+      console.log("error @reauthenticateUser", error.message);
+      return false;
     }
-    },
+  },
 
-  
-    // update name and password
-    updatePassword: async(currentPassword,newPassword) => {
-        // get the uid of the current user
-       const didReauthenticate = await Firebase.reauthenticateUser(currentPassword);
-       if(didReauthenticate){
-           try{
-               firebase.auth().currentUser.updatePassword(newPassword).then(
-                   console.log("successfully updated userPassword")
-               )
-               return true;
-           }catch(err){
-               console.log("error @updatePassword", error.message);
-               return false
-           }
-       }
-        
-    },
-    updateUsername: async(newUsername) => {
-
-        try{
-        const uid = Firebase.getCurrentUser().uid;
-        await db.collection('users').doc(uid).update({username:newUsername})
-        .then(console.log("successfully updated username"));
+  // update name and password
+  updatePassword: async (currentPassword, newPassword) => {
+    // get the uid of the current user
+    const didReauthenticate = await Firebase.reauthenticateUser(
+      currentPassword
+    );
+    if (didReauthenticate) {
+      try {
+        firebase
+          .auth()
+          .currentUser.updatePassword(newPassword)
+          .then(console.log("successfully updated userPassword"));
         return true;
-
-    }catch(err)
-     {
-        console.log("error updating username", err.message);
+      } catch (err) {
+        console.log("error @updatePassword", error.message);
         return false;
-     }
-     
+      }
     }
-
-}
-
+  },
+  updateUsername: async (newUsername) => {
+    try {
+      const uid = Firebase.getCurrentUser().uid;
+      await db
+        .collection("users")
+        .doc(uid)
+        .update({ username: newUsername })
+        .then(console.log("successfully updated username"));
+      return true;
+    } catch (err) {
+      console.log("error updating username", err.message);
+      return false;
+    }
+  },
+};
 
 // set uo FirebaseProvider component that can wrap the App
 const FirebaseProvider = (props) => {
-    return <FirebaseContext.Provider value={Firebase}>{props.children}</FirebaseContext.Provider>
-}
+  return (
+    <FirebaseContext.Provider value={Firebase}>
+      {props.children}
+    </FirebaseContext.Provider>
+  );
+};
 
-export{FirebaseContext,FirebaseProvider};
+export { FirebaseContext, FirebaseProvider };

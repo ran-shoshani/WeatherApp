@@ -42,7 +42,7 @@ const AddLocation = ({handleSearch,updateCurrentLocation}) => {
             style={styles.searchInput}
             placeholder={"Search..."}
             value={searchInput}
-            onChangeText={(value) => setSearchInput(value)}
+            onChangeText={(value) => setSearchInput(value.trim())}
             onSubmitEditing={() => {handleSearch(searchInput); setSearchInput('');}}
           />
         </View>
