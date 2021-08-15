@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef , useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ROUTES } from "../utils/constants";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ASYNC_CITY_LIST } from "../utils/constants";
+import { UserContext } from "../utils/UserContext";
 // default import
 import AddLocation from "../components/Home/AddLocation";
 import ListItem from "../components/Home/list/ListItem";
@@ -28,6 +29,12 @@ const Home = ({ navigation }) => {
 
   //ref
   const firstRender = useRef(true);
+
+  //context 
+  const [user] = useContext(UserContext);
+
+  // constant for asyncstorage -  each user have its own list by user uid
+  const ASYNC_STORAGE_KEY = ASYNC_CITY_LIST+user.uid;
 
   // states for this component
   const [cityListSource, setCityListSource] = useState([]);
@@ -153,7 +160,7 @@ const Home = ({ navigation }) => {
   const saveToStorage = async () => {
     try {
       await AsyncStorage.setItem(
-        ASYNC_CITY_LIST,
+        ASYNC_STORAGE_KEY,
         JSON.stringify(cityListSource)
       ).then(() => {
         //log a success message after storing the cityListSource list
@@ -168,7 +175,7 @@ const Home = ({ navigation }) => {
 
   const loadFromStorage = async () => {
     try {
-      await AsyncStorage.getItem(ASYNC_CITY_LIST).then((stringifyCityList) => {
+      await AsyncStorage.getItem(ASYNC_STORAGE_KEY).then((stringifyCityList) => {
         // if ASYNC_CITY_LIST is not null, there's a string to parse
         if (stringifyCityList) {
           console.log("@loadFromStorage LOADING FROM STORAGE SUCCESFULL: ");
@@ -224,7 +231,7 @@ const Home = ({ navigation }) => {
     let matchFound = false;
 
     cityListSource.forEach((item) => {
-      console.log("------------city id entered: ", id, item.id);
+      
       if (item.id === id) {
         console.log("double city entry");
          matchFound = true;

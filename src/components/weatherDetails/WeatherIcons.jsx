@@ -17,8 +17,8 @@ export default WeatherIcons
 const styles = StyleSheet.create({
     weatherIcon: {
 
-        width: 100,
-        height: 100,
+        width: 110,
+        height: 110,
     }
 
 })
