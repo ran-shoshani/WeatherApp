@@ -194,14 +194,18 @@ const styles = StyleSheet.create({
   content: {
     marginTop: 30,
     color: "white",
-  },
-  text: {
     color: "white",
+  },
+  // effects all text but currently temp
+  text: {
+    //color: "white",
+    color: "black",
     fontSize: 25,
     fontWeight: "bold",
   },
   text2: {
-    color: "white",
+    //color: "white",
+    color: "black",
     fontSize: 25,
     fontWeight: "bold",
   },
@@ -222,7 +226,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
-    color: "white",
+    //color: "white",
+    color: "black",
     fontSize: 60,
     fontWeight: "bold",
   },
@@ -232,7 +237,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     fontSize: 40,
     fontWeight: "bold",
-    color: "white",
+    //color: "white",
+    color: "black",
     //backgroundColor: "lightblue",
   },
   image: {

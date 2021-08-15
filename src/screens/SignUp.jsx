@@ -58,13 +58,13 @@ const SignUp = ({ navigation }) => {
 
   const validateInputs = (username, email, password) => {
     if (username.length < 3) {
-      Alert.alert("user name too short", [{ text: "OK" }]);
+      Alert.alert("user name too short","" [{ text: "OK" }]);
       return false;
     } else if (password.length < 8) {
-      Alert.alert("password must be more than 8 characters long", [{ text: "OK" }]);
+      Alert.alert("password must be more than 8 characters long",""[{ text: "OK" }]);
       return false;
     } else if (!(email.indexOf("@") > 0)) {
-      Alert.alert("email must use @", [{ text: "OK" }]);
+      Alert.alert("email must use @","" [{ text: "OK" }]);
       return false;
     } else {
       return true;

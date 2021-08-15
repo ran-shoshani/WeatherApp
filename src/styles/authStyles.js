@@ -86,7 +86,7 @@ export const authStyles = StyleSheet.create({
     color: "red",
     textDecorationLine: "underline",
     paddingHorizontal: 5,
-    fontSize: 22,
+    fontSize: 14,
   },
 
   bottomNavText: {
