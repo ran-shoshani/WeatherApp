@@ -46,10 +46,14 @@ const SignUp = ({ navigation }) => {
       try {
         // email password check
         const createdUser = await firebase.createUser(user);
-        setUser({ ...createdUser, isLoggedIn: true });
-        console.log("-----signUp successful");
+        if(createdUser){
+          setUser({ ...createdUser, isLoggedIn: true });
+          console.log("-----signUp successful");
+          Alert.alert("new user succefully");
+        }
       } catch (error) {
         console.log("error @signUp", error.message);
+        Alert.alert("new user failed",error.message);
       } finally {
         setLoading(false);
       }

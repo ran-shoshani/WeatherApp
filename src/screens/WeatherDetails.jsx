@@ -124,9 +124,7 @@ const WeatherDetails = ({ navigation, route }) => {
   const setTimeDate = (dt) => {
     // setCurrentDateTime(dt);
     console.log(" time date1: ", dt);
-    var unix_timestamp = dt;
-    console.log(" time date2: ", unix_timestamp);
-    var date = new Date(unix_timestamp * 1000);
+    var date = new Date(dt * 1000);
 
     var months = [
       "Jan",
@@ -149,18 +147,27 @@ const WeatherDetails = ({ navigation, route }) => {
     var day = date.getDate();
     var dayOfWeek = WeekDays[date.getDay()];
 
-    // Hours part from the timestamp
-    var hours = date.getHours();
-    // Minutes part from the timestamp
-    var minutes = "0" + date.getMinutes();
-    // Seconds part from the timestamp
-    var seconds = "0" + date.getSeconds();
-
-    // Will display time in 10:30:23 format
-    var formattedTime = dayOfWeek + " " + day + " " + month;
+    var suffix = getDaySuffix(day);
+    
+    var formattedTime = dayOfWeek + " " + day + suffix + " " + month;
     setCurrentDateTime(formattedTime);
     console.log("current time: ", currentDateTime);
   };
+
+  const getDaySuffix = (day) => {
+    let lastDigit = day % 10;
+    console.log("last digit: ", lastDigit);
+    switch (lastDigit) {
+      case 1:
+        return 'st'
+      case 2:
+        return 'nd'
+      case 3:
+        return 'rd'
+      default:
+        return 'th'
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -170,7 +177,7 @@ const WeatherDetails = ({ navigation, route }) => {
             <Text style={styles.title}>{route.params.item.name}</Text>
           </View>
           <View>
-            <Text style={styles.timeZone}>Time Zone:{timeZone}</Text>
+            <Text style={styles.timeZone}>Time Zone: {timeZone}</Text>
           </View>
           {/* time and date */}
           <View>
@@ -204,6 +211,9 @@ const WeatherDetails = ({ navigation, route }) => {
 export default WeatherDetails;
 
 const round = (number) => {
+  if(!number){
+    return '-';
+  }
   return Math.round(number * 10) / 10;
 };
 
@@ -251,9 +261,7 @@ const styles = StyleSheet.create({
     // margin: 10,
   },
   iconAndDescription: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "space-between",
     // borderWidth: 1,
     // borderRadius:5,

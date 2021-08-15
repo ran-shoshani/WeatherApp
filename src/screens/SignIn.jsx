@@ -50,6 +50,7 @@ const SignIn = ({ navigation }) => {
       });
     } catch (error) {
       console.log("error @signin, ", error.message);
+      Alert.alert("user signIn failed",error.message);
     } finally {
       setLoading(false);
     }

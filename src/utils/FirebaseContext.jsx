@@ -43,25 +43,28 @@ const Firebase = {
   },
 
   createUser: async (user) => {
-    try {
-      // create a user in the authentication portion of firebase
-      await firebase
+    return new Promise((resolve, reject) => {
+      try {
+        firebase
         .auth()
-        .createUserWithEmailAndPassword(user.email, user.password);
-
-      //
-      const uid = Firebase.getCurrentUser().uid;
-
-      await db.collection("users").doc(uid).set({
-        username: user.username,
-        email: user.email,
-      });
-
-      // discard the user password
-      delete user.password;
-    } catch (error) {
-      console.log("error @createUser ", error.message);
-    }
+        .createUserWithEmailAndPassword(user.email, user.password)
+          .then((response) => {
+            const uid = response.user.uid;
+            db.collection("users").doc(response.user.uid).set({
+              username: user.username,
+              email: user.email,
+            }).then(() => {
+                // discard the user password
+                delete user.password;
+                resolve({...user,uid});
+            })
+          }).catch(error => {
+            reject(error);
+          })
+      }catch (error) {
+        reject(error);
+      }
+    })
   },
 
   getUserInfo: async (uid) => {

@@ -16,7 +16,8 @@ export default WeatherIcons
 
 const styles = StyleSheet.create({
     weatherIcon: {
-
+        backgroundColor:"#99999970",
+        borderRadius:30,
         width: 110,
         height: 110,
     }
