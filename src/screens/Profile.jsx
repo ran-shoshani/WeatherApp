@@ -211,15 +211,11 @@ const styles = StyleSheet.create({
   updateUserNameContainer: {
     marginTop:20,
     padding: 10,
-    //borderWidth: 1,
-    //borderColor: "black",
   },
 
   updatePasswordContainer: {
     marginTop:20,
     padding: 10,
-    //borderWidth: 1,
-    //borderColor: "black",
   },
   inputView: {
     padding: 10,
@@ -268,7 +264,6 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    //justifyContent: "center",
   },
 });
 

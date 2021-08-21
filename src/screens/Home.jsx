@@ -115,7 +115,6 @@ const Home = ({ navigation }) => {
     saveToStorage();
   }, [cityListSource]);
 
-  //useRef() =>  ------------------
 
   // funcions
 
@@ -192,6 +191,7 @@ const Home = ({ navigation }) => {
   const handleSearch = (searchInput) => {
     console.log("handleSearch", searchInput);
 
+    // API CALL
     //api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid={API key}
     const URL = `${API_CALL.BASE_URL}q=${searchInput}${API_CALL.UNIT}${API_CALL.KEY}`;
     axios
@@ -277,6 +277,5 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    //justifyContent: "center",
   },
 });

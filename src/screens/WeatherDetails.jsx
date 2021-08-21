@@ -17,7 +17,7 @@ import WeatherIcons from "../components/weatherDetails/WeatherIcons";
 import { CurrentRenderContext } from "@react-navigation/native";
 
 const WeatherDetails = ({ navigation, route }) => {
-  // destruxture the item from params
+  // destructure the item from params
   const { lat, lon } = route.params.item.coord;
 
   //const
@@ -256,15 +256,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: 20,
-    // borderWidth: 1,
-    // borderRadius:5,
-    // margin: 10,
   },
   iconAndDescription: {
     alignItems: "center",
     justifyContent: "space-between",
-    // borderWidth: 1,
-    // borderRadius:5,
   },
   tempInfo: {
   alignItems: "flex-end",
@@ -275,7 +270,5 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-
-    //justifyContent: "center",
   },
 });

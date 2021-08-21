@@ -144,7 +144,7 @@ const Firebase = {
   },
 };
 
-// set uo FirebaseProvider component that can wrap the App
+// set up FirebaseProvider component that can wrap the App
 const FirebaseProvider = (props) => {
   return (
     <FirebaseContext.Provider value={Firebase}>

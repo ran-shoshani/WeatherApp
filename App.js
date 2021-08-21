@@ -9,19 +9,10 @@ import AppStackScreens from "./src/stacks/AppStackScreens";
 import { FirebaseProvider } from "./src/utils/FirebaseContext";
 
 
-// https://lottiefiles.com/search?q=sun&category=animations
-
-
-
-// rnfes =  react native function export component
+// rnfes = short cut reactNativeFunctionalExportComponentWithStyles 
 
 export default function App() {
-  // if (state.isLoading) {
-  //   // We haven't finished checking for the token yet
-  //   return <SplashScreen />;
-  // }
-  // state.isLoading is FALSE
-
+  
 useEffect(() => {
 
       // ignore the warning from firebase
@@ -49,13 +40,3 @@ const styles = StyleSheet.create({
   },
 });
 
-{
-  /* <Stack.Screen name={ROUTES.HOME} component={Home} />
-<Stack.Screen name={ROUTES.SIGN_UP} component={SignUp} />
-<Stack.Screen name={ROUTES.SIGN_IN} component={SignIn} />
-<Stack.Screen name={ROUTES.PROFILE} component={Profile} />
-<Stack.Screen
-  name={ROUTES.WEATHER_DETAILS}
-  component={WeatherDetails}
-/> */
-}
